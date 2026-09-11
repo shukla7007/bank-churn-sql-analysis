@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net" agent="Claude" version="24.0.0">
+  <diagram id="churn-arch" name="Architecture">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ===================== SWIMLANE: SOURCE ===================== -->
+        <mxCell id="src_title" value="SOURCE" style="text;html=1;fontStyle=1;fontSize=12;fontColor=#898781;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="kaggle" value="Kaggle:&#10;Churn_Modelling.csv&#10;(10,000 real customers)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF4FC;strokeColor=#2a78d6;fontColor=#0b0b0b;fontSize=12;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== SWIMLANE: GENERATE ===================== -->
+        <mxCell id="gen_title" value="GENERATE (Python)" style="text;html=1;fontStyle=1;fontSize=12;fontColor=#898781;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="280" y="40" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="genscript" value="generate_data.py&#10;&#10;simulate monthly transactions&#10;per customer (tenure + churn&#10;status aware, seeded RNG)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8EC;strokeColor=#eda100;fontColor=#0b0b0b;fontSize=12;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="70" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="csvs" value="customers.csv&#10;transactions.csv (~626k rows)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c3c2b7;fontColor=#52514e;fontSize=11;arcSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="180" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== SWIMLANE: STORE ===================== -->
+        <mxCell id="store_title" value="STORE (MySQL 8)" style="text;html=1;fontStyle=1;fontSize=12;fontColor=#898781;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="560" y="40" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="schema" value="schema.sql&#10;&#10;customers (10,000 rows)&#10;transactions (626,192 rows)&#10;FK + composite indexes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF7EF;strokeColor=#1baf7a;fontColor=#0b0b0b;fontSize=12;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="70" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="loaders" value="load_data.sql / load_data.py&#10;(LOAD DATA or batched INSERT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c3c2b7;fontColor=#52514e;fontSize=11;arcSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="180" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== SWIMLANE: ANALYZE ===================== -->
+        <mxCell id="an_title" value="ANALYZE (Advanced SQL)" style="text;html=1;fontStyle=1;fontSize=12;fontColor=#898781;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="840" y="40" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="q1" value="01_cohort_retention.sql&#10;CTEs + conditional aggregation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF4FC;strokeColor=#2a78d6;fontColor=#0b0b0b;fontSize=11;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="70" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="q2" value="02_customer_segmentation.sql&#10;RANK() + NTILE() window functions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF4FC;strokeColor=#2a78d6;fontColor=#0b0b0b;fontSize=11;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="135" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="q3" value="03_self_join_first_last_transaction.sql&#10;Self-joins (+ MIN/MAX comparison)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF4FC;strokeColor=#2a78d6;fontColor=#0b0b0b;fontSize=11;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="200" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== SWIMLANE: PRESENT ===================== -->
+        <mxCell id="pres_title" value="PRESENT" style="text;html=1;fontStyle=1;fontSize=12;fontColor=#898781;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="40" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="results" value="results_*.csv&#10;(query exports)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#c3c2b7;fontColor=#52514e;fontSize=11;arcSize=12;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="70" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="powerbi" value="Power BI report&#10;&#10;retention heatmap, segmentation&#10;views, churn-risk KPIs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDEDEE;strokeColor=#d03b3b;fontColor=#0b0b0b;fontSize=12;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="140" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pdf" value="PDF report&#10;&#10;6-page findings summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDEDEE;strokeColor=#d03b3b;fontColor=#0b0b0b;fontSize=12;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="225" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== ARROWS: main flow ===================== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="kaggle" target="genscript">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="genscript" target="csvs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="csvs" target="loaders">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="loaders" target="schema">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="schema" target="q1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="schema" target="q2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="schema" target="q3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="q1" target="results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="q2" target="results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="q3" target="results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="results" target="powerbi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#898781;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="results" target="pdf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ===================== Enclosing repo box ===================== -->
+        <mxCell id="repobox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2a78d6;dashed=1;dashPattern=6 4;verticalAlign=top;fontSize=12;fontColor=#2a78d6;" vertex="1" parent="1">
+          <mxGeometry x="20" y="320" width="1330" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="repolabel" value="GitHub repo: schema.sql · load_data.sql/.py · generate_data.py · queries/ · data/ · results_*.csv · README.md · diagram/architecture.drawio" style="text;html=1;fontSize=11.5;fontColor=#2a78d6;align=center;verticalAlign=middle;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="335" width="1330" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
