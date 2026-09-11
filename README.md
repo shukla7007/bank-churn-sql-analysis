@@ -2,9 +2,7 @@
 
 A SQL portfolio project analyzing churn, retention, and customer value for a
 retail bank, built to showcase window functions, CTEs, conditional
-aggregation, and self-joins in MySQL — the format that comes up constantly
-in data/BI interview "walk me through a project" rounds.
-
+aggregation, and self-joins in MySQL 
 ## Architecture
 
 ![Architecture diagram](diagram/architecture.png)
