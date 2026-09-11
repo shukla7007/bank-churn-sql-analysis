@@ -131,18 +131,3 @@ the equivalent `MIN()`/`MAX()` + `GROUP BY` version for comparison — worth
 knowing both, since interviewers sometimes ask you to do it "without an
 aggregate function."
 
-## Talking points for an interview walkthrough
-
-- Why simulate transactions instead of using the raw dataset as-is: the raw
-  dataset is a single snapshot with no dates, so none of retention,
-  cohorts, or recency analysis is possible without transaction-level
-  history — explain the tradeoff (grounded-but-simulated data) honestly.
-- `RANK()` vs `DENSE_RANK()` vs `ROW_NUMBER()` — and why `RANK()` was the
-  right choice for geography leaderboards (ties should share a rank).
-- Self-join vs `MIN()`/`MAX()`: the self-join is O(n²)-ish without a tight
-  index and mostly exists to demonstrate the technique; in production
-  you'd use the aggregate version — say this proactively, it shows
-  judgment rather than just "knowing the syntax."
-- The `idx_customer_date` composite index on `transactions(customer_id,
-  transaction_date)` is what keeps the self-join and window-function
-  queries from doing full table scans — check with `EXPLAIN`.
